@@ -12,6 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
-    "@freecodecamp/example": "1.2.13"
+    "@freecodecamp/example": "~1.2.13"
   }
 }
