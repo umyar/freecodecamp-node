@@ -35,6 +35,9 @@ app.route('/_api/package.json')
 
 app.route('/')
   .get(function(req, res) {
+    // TODO: rm debug log
+    console.log('process.cwd()', process.cwd());
+    
     res.sendFile(process.cwd() + '/views/index.html');
   })
 
