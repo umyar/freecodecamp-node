@@ -11,8 +11,7 @@
   "author": "Umiar Iusupov",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2",
-    "@freecodecamp/example": "^1.2.13"
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "prettier": "^3.2.5"
