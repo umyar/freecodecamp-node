@@ -1,4 +1,5 @@
 let express = require('express');
+let path = require('path');
 let app = express();
 
 app.get('/', function (req, res) {
@@ -6,9 +7,10 @@ app.get('/', function (req, res) {
 });
 
 // Normal usage
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
 
 // Assets at the /public route
-app.use('/public', express.static(__dirname + '/public'));
+// app.use('/public', express.static(__dirname + '/public'));
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 module.exports = app;
