@@ -9,9 +9,7 @@ let app = express();
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
-
-console.log('Hello World');
 
 module.exports = app;
