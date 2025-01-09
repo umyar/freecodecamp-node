@@ -14,3 +14,7 @@ h1 {
 input[type=text], label {
   margin-bottom: 8px;
 }
+
+.inside-css-files {
+  widht: 10px;
+}
