@@ -23,6 +23,7 @@ app.get('/json', (req, res) => {
   res.json({ message: responseMessage });
 });
 
+/*
 app.get(
   '/now',
   (req, res, next) => {
@@ -33,5 +34,19 @@ app.get(
     res.json({ time: req.time });
   },
 );
+ */
+
+app.get('/now', (req, res, next) => {
+  req.time = new Date().toString();
+  next();
+});
+
+app.get('/placeholder', (req, res) => {
+  res.send('placeholder');
+});
+
+app.get('/now', (req, res, next) => {
+  res.json({ time: req.time });
+});
 
 module.exports = app;
