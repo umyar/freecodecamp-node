@@ -23,30 +23,10 @@ app.get('/json', (req, res) => {
   res.json({ message: responseMessage });
 });
 
+app.get('/:word/echo', (req, res) => {
+  const { word } = req.params;
 
-app.get(
-  '/now',
-  (req, res, next) => {
-    req.time = new Date().toString();
-    next();
-  },
-  (req, res) => {
-    res.json({ time: req.time });
-  },
-);
-
-
-// app.get('/now', (req, res, next) => {
-//   req.time = new Date().toString();
-//   next();
-// });
-//
-// app.get('/placeholder', (req, res) => {
-//   res.send('placeholder');
-// });
-//
-// app.get('/now', (req, res, next) => {
-//   res.json({ time: req.time });
-// });
+  res.json({ echo: word })
+})
 
 module.exports = app;
