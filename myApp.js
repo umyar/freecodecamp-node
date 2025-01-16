@@ -1,6 +1,7 @@
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
 const MESSAGE = 'Hello json';
 
@@ -10,6 +11,7 @@ const loggerMiddleware = (req, res, next) => {
 };
 
 app.use(loggerMiddleware);
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/public', express.static(__dirname + '/public'));
 
