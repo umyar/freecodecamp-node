@@ -31,10 +31,10 @@ app.get('/:word/echo', (req, res) => {
   res.json({ echo: word });
 });
 
-const nameHandlerFn = (req, res) => {
-  res.json({ name: `${req.query.first} ${req.query.last}` });
+const namePostHandlerFn = (req, res) => {
+  res.json({ name: `${req.body.first} ${req.body.last}` });
 };
 
-app.route('/name').get(nameHandlerFn).post(nameHandlerFn);
+app.post('/name', namePostHandlerFn);
 
 module.exports = app;
