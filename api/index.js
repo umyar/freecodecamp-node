@@ -34,7 +34,7 @@ app.get('/api/:time', (req, res) => {
 
     if (isDateInvalid(time) && !isDateInvalid(time * 1000)) {
       const parsedTime = new Date(time * 1000);
-      res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
+      res.json({ unix: time, utc: parsedTime.toUTCString() });
     } else {
       const parsedTime = new Date(time);
       res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
