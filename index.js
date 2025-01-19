@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API!' });
+  res.json({ greeting: 'hello API' });
 });
 
 // Listen on port set in environment variable or default to 3000
