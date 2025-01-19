@@ -28,12 +28,25 @@ app.get('/api/:time', (req, res) => {
   const { time } = req.params;
 
   try {
-    const parsedTime = new Date(time);
-    res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
+    if (isDateInvalid(time) && isDateInvalid(time * 1000)) {
+      res.json({ error: 'Invalid Date' });
+    }
+
+    if (isDateInvalid(time) && !isDateInvalid(time * 1000)) {
+      const parsedTime = new Date(time * 1000);
+      res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
+    } else {
+      const parsedTime = new Date(time);
+      res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
+    }
   } catch (e) {
     res.json({ error: e });
   }
 });
+
+function isDateInvalid(dateStr) {
+  return isNaN(new Date(dateStr));
+}
 
 // Listen on port set in environment variable or default to 3000
 const listener = app.listen(process.env.PORT || 3000, function () {
