@@ -15,13 +15,12 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function (req, res) {
-  // res.sendFile(__dirname + '/views/index.html');
-  res.sendFile(__dirname + '../views/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+  res.json({ greeting: 'hello API!' });
 });
 
 // Listen on port set in environment variable or default to 3000
