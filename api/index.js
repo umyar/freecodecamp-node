@@ -3,6 +3,7 @@
 
 // init project
 const express = require('express');
+const path = require('path');
 const app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -15,7 +16,7 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 });
 
 // your first API endpoint...
