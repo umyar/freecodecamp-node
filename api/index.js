@@ -32,21 +32,17 @@ app.get('/api', function (req, res) {
 
 app.get('/api/:time', (req, res) => {
   const { time } = req.params;
+  //1451001600000
+  const timeAsTimestamp = !isNaN(Number(time));
 
-  try {
-    if (isDateInvalid(time) && isDateInvalid(time * 1000)) {
-      res.json({ error: 'Invalid Date' });
-    }
-
-    if (isDateInvalid(time) && !isDateInvalid(time * 1000)) {
-      const parsedTime = new Date(time * 1000);
-      res.json({ unix: time, utc: parsedTime.toUTCString() });
-    } else {
-      const parsedTime = new Date(time);
-      res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
-    }
-  } catch (e) {
-    res.json({ error: e });
+  if (timeAsTimestamp) {
+    const parsedTime = new Date(parseInt(time));
+    res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
+  } else if (isDateInvalid(time)) {
+    res.json({ error: 'Invalid Date' });
+  } else {
+    const parsedTime = new Date(time);
+    res.json({ unix: parsedTime.valueOf(), utc: parsedTime.toUTCString() });
   }
 });
 
