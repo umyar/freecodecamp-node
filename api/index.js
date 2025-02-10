@@ -51,6 +51,7 @@ app.use(express.json());
 const submittedUrlValidationMiddleware = async (req, res, next) => {
   const originalUrl = req.body.url;
   const domainOnlyUrl = originalUrl;
+  // TODO: test https://freeCodeCamp.org!
 
   // const isValidUrl = originalUrl ? checkTheUrl(originalUrl) : false;
   //
@@ -128,7 +129,8 @@ app.post(
 
     try {
       await newUrlPair.save();
-      res.json({ original_url: originalUrl, short_url_TEMP: shortUrl, short_url: shortUrlSubstring });
+      // short_url: shortUrl
+      res.json({ original_url: originalUrl, short_url: shortUrlSubstring });
     } catch (e) {
       res.json({ error: e || 'Something went wrong. (ERR_CODE: newUrlPair)' });
     }
