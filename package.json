@@ -22,8 +22,7 @@
     "fcc-express-bground": "https://github.com/freeCodeCamp/fcc-express-bground-pkg.git",
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
-    "cors": "^2.8.5",
-    "date-fns": "^4.1.0"
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
