@@ -46,6 +46,7 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 const submittedUrlValidationMiddleware = async (req, res, next) => {
   const originalUrl = req.body.url;
@@ -66,7 +67,7 @@ const submittedUrlValidationMiddleware = async (req, res, next) => {
     }
 
     req.urlData = {
-      originalUrl,
+      originalUrl: domainOnlyUrl,
       ip: address,
       ipVersion,
     };
@@ -122,17 +123,15 @@ app.post(
     } = req;
 
     const shortUrl = new URL(shortUrlSubstring, process.env.SHORTENER_SERVICE_BASE_URL);
-    console.log('👹 shortUrl', shortUrl);
 
     const newUrlPair = new UrlPairModel({ originalUrl, shortUrl, ip, ipVersion, uniqSubstring: shortUrlSubstring });
 
     try {
       await newUrlPair.save();
+      res.json({ original_url: originalUrl, short_url: shortUrl });
     } catch (e) {
       res.json({ error: e || 'Something went wrong. (ERR_CODE: newUrlPair)' });
     }
-
-    res.json({ original_url: originalUrl, short_url: shortUrl });
   },
 );
 

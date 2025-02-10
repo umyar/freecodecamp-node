@@ -42,3 +42,15 @@ input[type='text'] {
   width: 220px;
   text-align: center;
 }
+
+.short-url {
+  padding: 5px;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: #ba0000;
+}
