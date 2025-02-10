@@ -128,7 +128,7 @@ app.post(
 
     try {
       await newUrlPair.save();
-      res.json({ original_url: originalUrl, short_url: shortUrl });
+      res.json({ original_url: originalUrl, short_url_TEMP: shortUrl, short_url: shortUrlSubstring });
     } catch (e) {
       res.json({ error: e || 'Something went wrong. (ERR_CODE: newUrlPair)' });
     }
