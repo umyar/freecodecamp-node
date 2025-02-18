@@ -52,15 +52,6 @@ const submittedUrlValidationMiddleware = async (req, res, next) => {
   const originalUrl = req.body.url;
   const urlObject = new URL(originalUrl);
   const hostOnly = urlObject.host;
-  // TODO: test https://freeCodeCamp.org!
-
-  // const isValidUrl = originalUrl ? checkTheUrl(originalUrl) : false;
-  //
-  // if (!isValidUrl) {
-  //   return res.json(INVALID_URL_ERROR);
-  // }
-
-  // console.log('originalUrl', originalUrl);
 
   dns.lookup(hostOnly, (error, address, ipVersion) => {
     if (error) {
@@ -145,7 +136,13 @@ app.get('/api/shorturl/:substring', async (req, res) => {
 
   if (foundUrlData) {
     // TODO: handle protocol better
-    const redirectUrl = DEFAULT_PROTOCOL + foundUrlData.originalUrl;
+    let redirectUrl = '';
+    const httpsRegex = new RegExp('^https?://');
+    if (httpsRegex.test(foundUrlData.originalUrl)) {
+      redirectUrl = foundUrlData.originalUrl;
+    } else {
+      redirectUrl = DEFAULT_PROTOCOL + foundUrlData.originalUrl;
+    }
     res.redirect(redirectUrl);
   } else {
     res.json(INVALID_SHORT_URL);
