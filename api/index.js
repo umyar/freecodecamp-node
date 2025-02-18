@@ -50,7 +50,8 @@ app.use(express.json());
 
 const submittedUrlValidationMiddleware = async (req, res, next) => {
   const originalUrl = req.body.url;
-  const domainOnlyUrl = originalUrl;
+  const urlObject = new URL(originalUrl);
+  const hostOnly = urlObject.host;
   // TODO: test https://freeCodeCamp.org!
 
   // const isValidUrl = originalUrl ? checkTheUrl(originalUrl) : false;
@@ -61,14 +62,14 @@ const submittedUrlValidationMiddleware = async (req, res, next) => {
 
   // console.log('originalUrl', originalUrl);
 
-  dns.lookup(domainOnlyUrl, (error, address, ipVersion) => {
+  dns.lookup(hostOnly, (error, address, ipVersion) => {
     if (error) {
       console.log(error);
       return res.json(INVALID_URL_ERROR);
     }
 
     req.urlData = {
-      originalUrl: domainOnlyUrl,
+      originalUrl,
       ip: address,
       ipVersion,
     };

@@ -19,7 +19,7 @@ function handleFormSubmit() {
     .then(response => response.json())
     .then(data => {
       resultDiv.innerHTML = '';
-      resultDiv.appendChild(getMessageContent(Boolean(data.short_url), data.short_url || error));
+      resultDiv.appendChild(getMessageContent(Boolean(data.short_url), data.short_url || data.error));
     })
     .catch(error => {
       resultDiv.innerHTML = '';
