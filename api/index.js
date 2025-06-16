@@ -70,6 +70,7 @@ const LogSchema = new mongoose.Schema({
 });
 
 const UserModel = mongoose.model('User', UserSchema);
+const ExerciseModel = mongoose.model('Exercise', ExerciseSchema);
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
@@ -101,6 +102,46 @@ app.post('/api/users', async function (req, res) {
     res.json({ username, _id });
   } catch (e) {
     res.status(500).send('Something went wrong while creating user');
+  }
+});
+
+app.get('/api/users', async function (req, res) {
+  try {
+    const users = await UserModel.find();
+    res.json(users);
+  } catch (e) {
+    res.status(500).send('Something went wrong while retrieving users');
+  }
+});
+
+app.post('/api/users/:id/exercises', async function (req, res) {
+  const { description, duration, date } = req.body;
+  const userId = req.params.id;
+
+  if (!description || !duration || !userId) {
+    res.status(400).send('some of necessary params is missed: description, duration, user id');
+  }
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      res.status(400).send('user with provided id is not found');
+    }
+
+    const dateInNecessaryFormat = date ? new Date(date) : new Date();
+
+    const newExercise = new ExerciseModel({
+      description,
+      duration,
+      date: dateInNecessaryFormat,
+      username: user.username,
+    });
+
+    const resultObject = await newExercise.save();
+    res.json(resultObject);
+  } catch (e) {
+    res.status(500).send('Something went wrong while creating an exercise');
   }
 });
 
