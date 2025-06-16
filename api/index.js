@@ -13,9 +13,7 @@ const app = express();
  * Just assume that IRL everything will probably be stored in a separate modules/files.
  */
 
-const INVALID_URL_ERROR = { error: 'invalid url' };
-const INVALID_SHORT_URL = { error: 'original url not found for a provided short url' };
-const DEFAULT_PROTOCOL = 'https://';
+const INVALID_USER_ID_ERROR = { error: 'invalid user id' }; // uuid pattern + not empty check?
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -32,7 +30,7 @@ const ExerciseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  date: { type: Date, required: true },
+  date: { type: Date },
 });
 
 const UserSchema = new mongoose.Schema({
@@ -71,8 +69,7 @@ const LogSchema = new mongoose.Schema({
   log: [LogItemSchema],
 });
 
-
-const UrlPairModel = mongoose.model('UrlPair', UrlPairSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
@@ -88,6 +85,23 @@ app.get('/', function (req, res) {
 
 app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
+});
+
+app.post('/api/users', async function (req, res) {
+  const { username } = req.body;
+
+  if (!username) {
+    res.status(400).send('username required');
+  }
+
+  const newUser = new UserModel({ username });
+
+  try {
+    const { _id } = await newUser.save();
+    res.json({ username, _id });
+  } catch (e) {
+    res.status(500).send('Something went wrong while creating user');
+  }
 });
 
 const listener = app.listen(process.env.PORT || 3000, function () {

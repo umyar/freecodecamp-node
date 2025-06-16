@@ -1,7 +1,7 @@
-const form = document.getElementById('original-url-form');
+const url_form = document.getElementById('original-url-form');
 const resultDiv = document.querySelector('.short-url');
 
-form.addEventListener('submit', function (event) {
+url_form.addEventListener('submit', function (event) {
   event.preventDefault();
   handleFormSubmit();
 });
