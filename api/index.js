@@ -160,35 +160,37 @@ app.post('/api/users/:id/exercises', async function (req, res) {
   }
 });
 
-app.post('/api/users/:_id/logs', async function (req, res) {
-  const userId = req.params._id;
+app.get('/api/users/:id/logs', async function (req, res) {
+  const userId = req.params.id;
+  const { from, to, limit } = req.query;
+
+  console.log('🆘 { from, to, limit }', { from, to, limit });
 
   try {
     const user = await UserModel.findById(userId);
-
     if (!user) {
       res.status(400).send('user with provided ID is not found');
     }
+
+    const requestedUsername = user.username;
+
+    const exercises = await ExerciseModel.find({ username: requestedUsername });
+
+    const returnResult = {
+      username: requestedUsername,
+      count: exercises.length,
+      _id: userId,
+      log: exercises.map(ex => ({
+        description: ex.description,
+        duration: ex.duration,
+        date: ex.date.toDateString(),
+      })),
+    };
+
+    res.json(returnResult);
   } catch (e) {
     res.status(500).send('Something went wrong while getting user logs');
   }
-
-  const requestedUsername = user.username;
-
-  const exercises = await ExerciseModel.find({ username: requestedUsername });
-
-  const returnResult = {
-    username: requestedUsername,
-    count: exercises.length,
-    _id: userId,
-    log: exercises.map(ex => ({
-      description: ex.description,
-      duration: ex.duration,
-      date: ex.date.toString(),
-    })),
-  };
-
-  res.json(returnResult);
 });
 
 const listener = app.listen(process.env.PORT || 3000, function () {
