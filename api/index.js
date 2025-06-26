@@ -180,13 +180,23 @@ app.get('/api/users/:id/logs', async function (req, res) {
     const aggregatedLogs = exercises.reduce((acc, currentEx) => {
       const currentExTimestamp = Date.parse(currentEx.date);
 
-      if (fromTimestamp < currentExTimestamp && toTimestamp > currentExTimestamp && acc.length <= Number(limit)) {
-        acc.push({
-          description: currentEx.description,
-          duration: currentEx.duration,
-          date: currentEx.date.toDateString(),
-        });
+      if (fromTimestamp && toTimestamp && limit) {
+        if (fromTimestamp < currentExTimestamp && toTimestamp > currentExTimestamp && acc.length <= Number(limit)) {
+          acc.push({
+            description: currentEx.description,
+            duration: currentEx.duration,
+            date: currentEx.date.toDateString(),
+          });
+        }
       }
+
+      acc.push({
+        description: currentEx.description,
+        duration: currentEx.duration,
+        date: currentEx.date.toDateString(),
+      });
+
+      return acc;
     }, []);
 
     const returnResult = {
