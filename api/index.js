@@ -188,13 +188,13 @@ app.get('/api/users/:id/logs', async function (req, res) {
             date: currentEx.date.toDateString(),
           });
         }
+      } else {
+        acc.push({
+          description: currentEx.description,
+          duration: currentEx.duration,
+          date: currentEx.date.toDateString(),
+        });
       }
-
-      acc.push({
-        description: currentEx.description,
-        duration: currentEx.duration,
-        date: currentEx.date.toDateString(),
-      });
 
       return acc;
     }, []);
