@@ -173,18 +173,27 @@ app.get('/api/users/:id/logs', async function (req, res) {
     }
 
     const requestedUsername = user.username;
+    const fromTimestamp = from ? Date.parse(from) : null;
+    const toTimestamp = to ? Date.parse(to) : null;
 
     const exercises = await ExerciseModel.find({ username: requestedUsername });
+    const aggregatedLogs = exercises.reduce((acc, currentEx) => {
+      const currentExTimestamp = Date.parse(currentEx.date);
+
+      if (fromTimestamp < currentExTimestamp && toTimestamp > currentExTimestamp && acc.length <= Number(limit)) {
+        acc.push({
+          description: currentEx.description,
+          duration: currentEx.duration,
+          date: currentEx.date.toDateString(),
+        });
+      }
+    }, []);
 
     const returnResult = {
       username: requestedUsername,
       count: exercises.length,
       _id: userId,
-      log: exercises.map(ex => ({
-        description: ex.description,
-        duration: ex.duration,
-        date: ex.date.toDateString(),
-      })),
+      log: aggregatedLogs,
     };
 
     res.json(returnResult);
