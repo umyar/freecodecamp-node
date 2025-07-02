@@ -8,7 +8,10 @@ require('dotenv').config();
 
 // const mongoose = require('mongoose');
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'uploads/' });
+const upload = multer({
+  dest: path.join('/tmp'),
+});
 
 /**
  * All the code is listed below (middlewares, db stuff, utils, etc).
@@ -35,8 +38,6 @@ app.get('/api/hello', function (req, res) {
 
 app.post('/api/fileanalyse', upload.single('upfile'), async function (req, res) {
   const { file } = req;
-
-  // console.log('🆘 file', file);
 
   res.json({ name: file.originalname, type: file.mimetype, size: file.size });
 });
